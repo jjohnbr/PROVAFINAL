@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resfriamento Global</title>
+    <link href="https://fonts.googleapis.com/css?family=Karla|Stoke" rel="stylesheet">
+    <style>
+        /* Estilização geral */
+        body {
+            font-family: 'Karla', sans-serif;
+            background: url('FUNDOPROVA1.png') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Cabeçalho */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #335eff;
+            color: white;
+            height: 40px;
+        }
+
+        .ender {
+            text-align: right;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .imgLogo {
+            width: 200px;
+            height: auto;
+        }
+
+        /* Título principal */
+        h1 {
+            text-align: center;
+            font-family: 'Stoke', serif;
+            font-size: 32px;
+            color: #f2feff;
+            margin: 20px 0;
+        }
+
+        /* Subtítulo */
+        h2 {
+            text-align: center;
+            font-family: 'Stoke', serif;
+            font-size: 20px;
+            color: #d2e6ff;
+            margin-bottom: 30px;
+        }
+
+        /* Navegação */
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #f2feff;
+            font-weight: bold;
+            padding: 10px 20px;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.3); /* Fundo com opacidade reduzida */
+            border-radius: 5px;
+        }
+
+        /* Seção da imagem */
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Texto próximo ao rodapé */
+        .bottom-text {
+            text-align: center;
+            padding: 20px;
+            background-color: #d2e6ff;
+            margin: 20px 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* Rodapé */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 10px;
+            background-color: #335eff;
+            color: white;
+        }
+
+        /* Canvas de neve */
+        #snow-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1; /* Para que fique no fundo */
+        }
+    </style>
+</head>
+<body>
+<header>
+    <address class="ender">
+        Av. Novaya Zemlya, 1870<br/>
+        Cel: (21) 98765-4321<br/>
+        <a href="mailto:contato@resfriglob.com.br" style="color: white;">contato@resfriglob.com.br</a>
+    </address>
+    <img class="imgLogo" src="LOGOPROVA.PNG" alt="Logo Resfriamento Global"/>
+</header>
+<h1>RESFRIAMENTO GLOBAL</h1>
+<h2>PARE DE SENTIR CALOR! SINTA O CLIMA DA IDADE DO GELO</h2>
+<nav>
+
+    <!-- Canvas para neve -->
+    <canvas id="snow-canvas"></canvas>
+
+    <ul>
+        <li><a href="2_RefriGlobal.html">APRESENTAÇÃO</a></li>
+        <li><a href="3_Tipos.html">TIPOS</a></li>
+        <li><a href="4_Estoque.html">ESTOQUE</a></li>
+        <li><a href="5_Cadastro.html">CADASTRO</a></li>
+        <li><a href="6_Compras.html">COMPRAS</a></li>
+    </ul>
+</nav>
+
+<!-- Seção da Imagem -->
+<div class="image-container">
+    <img src="PINGUIMPROVA.PNG" alt="Equipamentos de Resfriamento"/>
+</div>
+
+<!-- Texto Próximo ao Rodapé -->
+<div class="bottom-text">
+    Venha conhecer os melhores equipamentos de resfriamento. Oferecemos tecnologia de ponta para garantir seu conforto térmico.
+</div>
+
+<footer>
+    &copy; 2025 Resfriamento Global. Todos os direitos reservados.
+</footer>
+
+<script>
+    const canvas = document.getElementById('snow-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const particles = [];
+    const particleCount = 100;
+
+    for (let i = 0; i < particleCount; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 4 + 1,
+            speedY: Math.random() * 3 + 1,
+            speedX: Math.random() * 2 - 1,
+            opacity: Math.random() * 0.5 + 0.3 // Reduz opacidade
+        });
+    }
+
+    function updateSnow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(particle => {
+            particle.y += particle.speedY;
+            particle.x += particle.speedX;
+
+            if (particle.y > canvas.height) particle.y = -particle.size;
+            if (particle.x > canvas.width) particle.x = -particle.size;
+            if (particle.x < -particle.size) particle.x = canvas.width;
+
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
+            ctx.fill();
+        });
+
+        requestAnimationFrame(updateSnow);
+    }
+
+    updateSnow();
+</script>
+</body>
+</html>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
